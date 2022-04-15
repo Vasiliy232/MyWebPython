@@ -142,11 +142,11 @@ class Lotto:
         barrel_numb = self._bag[barrel]
         self._bag.pop(barrel)
         print(f"Новый бочонок: {barrel_numb} (осталось {len(self._bag)})")
-        user_count = self._user_type.count("Human")     # Количество людей в игре
+        human_count = self._user_type.count("Human")     # Количество людей в игре
         comp_count = self._user_type.count("Computer")  # Количество компьютеров в игре
         for i in range(len(self._user_cards)):
-            if i < user_count:      # Сначала выводим все карточки людей
-                if user_count == 1:
+            if i < human_count:      # Сначала выводим все карточки людей
+                if human_count == 1:
                     print(f"------ Ваша карточка -----\n{self._user_cards[i]}")
                 else:
                     print(f"---- Карточка игрока {i+1} ---\n{self._user_cards[i]}")
@@ -154,12 +154,12 @@ class Lotto:
                 if comp_count == 1:
                     print(f"-- Карточка компьютера ---\n{self._user_cards[i]}")
                 else:
-                    i_tmp = i - user_count
+                    i_tmp = i - human_count
                     print(f"-- Карточка компьютера {i_tmp+1} -\n{self._user_cards[i]}")
 
         for i in range(len(self._user_cards)):
-            if i < user_count:     # Сначала опрашиваем людей
-                if user_count == 1:
+            if i < human_count:     # Сначала опрашиваем людей
+                if human_count == 1:
                     user_answer = input("Зачеркнуть цифру? (y/n) ")
                 else:
                     user_answer = input(f"Игрок {i+1}, зачеркнуть цифру? (y/n) ")
