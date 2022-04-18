@@ -6,7 +6,7 @@ from random import choice
 @fixture
 def card_instance():
     card = Card()
-    return card, card.card_list    # Возвращем экземпляр класса и список
+    return card, card.card_list  # Возвращем экземпляр класса и список
 
 
 @fixture
@@ -57,7 +57,7 @@ class TestUser:
         assert user_instance.user_amount == expected_value
 
     @mark.parametrize("user_type, expected_value", [param(["Human", "Computer", "Human"],
-                                                ["Human", "Computer", "Human"],
+                                                          ["Human", "Computer", "Human"],
                                                           id="type_id")])
     def test_user_type(self, user_instance, user_type, expected_value):
         user_instance.user_type = user_type
