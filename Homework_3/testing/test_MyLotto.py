@@ -27,7 +27,7 @@ def exception_list(numb_list):
 class TestCard:
     def test_contain(self, card_instance):
         num = choice(card_instance[1])  # Выбираем случайное число из карточки
-        assert num in card_instance[1]
+        assert num in card_instance[0]
 
     def test_cross_num(self, card_instance):
         num = choice(card_instance[1])
