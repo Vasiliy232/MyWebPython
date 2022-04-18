@@ -75,7 +75,7 @@ class Card:
         for index, item in enumerate(self.card_list):
             if item == num:
                 self.card_list[index] = self._crossed_numb
-                return
+                return self.card_list[index]
         raise ValueError(f"Номера нет в карточке: {num}")
 
     def closed(self) -> bool:
