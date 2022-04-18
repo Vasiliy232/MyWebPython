@@ -1,12 +1,18 @@
-from Homework_2.MyLotto import Card
-from pytest import fixture, raises
+from Homework_2.MyLotto import Card, User
+from pytest import fixture, raises, mark, param
 from random import choice
 
 
 @fixture
 def card_instance():
     card = Card()
-    return card, card.card_list
+    return card, card.card_list    # Возвращем экземпляр класса и список
+
+
+@fixture
+def user_instance():
+    user = User()
+    return user
 
 
 def exception_list(numb_list):
@@ -45,4 +51,14 @@ class TestCard:
 
 
 class TestUser:
-    pass
+    @mark.parametrize("amount, expected_value", [param(4, 4, id="amount_id")])
+    def test_user_amount(self, user_instance, amount, expected_value):
+        user_instance.user_amount = amount
+        assert user_instance.user_amount == expected_value
+
+    @mark.parametrize("user_type, expected_value", [param(["Human", "Computer", "Human"],
+                                                ["Human", "Computer", "Human"],
+                                                          id="type_id")])
+    def test_user_type(self, user_instance, user_type, expected_value):
+        user_instance.user_type = user_type
+        assert user_instance.user_type == expected_value
