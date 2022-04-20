@@ -1,7 +1,7 @@
 # created by virtualenv automatically
 /.idea
 /venv
-/Homework_3/testing/__init__.py
+/homework_3/testing/__init__.py
 /homework_2/__pycache__/
-/Homework_3/testing/__pycache__/
+/homework_3/testing/__pycache__/
 .coverage
