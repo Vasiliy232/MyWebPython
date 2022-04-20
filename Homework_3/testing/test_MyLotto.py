@@ -1,4 +1,4 @@
-from Homework_2.MyLotto import Card, User
+from homework_2.my_lotto import Card, User
 from pytest import fixture, raises, mark, param
 from random import choice
 
