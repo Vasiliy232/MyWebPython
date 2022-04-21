@@ -56,10 +56,10 @@ class Post(Base):
     user = relationship("User", backref="user_posts")
 
     def __str__(self):
-        return (f"{__class__.__name__} by "
-                f"{self.user_username}: "
-                f"{self.post_text}. "
-                f"Tags: {self.post_tags}")
+        return (f"Username: {self.user_username}\n"
+                f"{__class__.__name__}: {self.post_text}\n"
+                "Tags: " + ", ".join(map(str, self.post_tags)) + "\n"
+                "------------")
 
     def __repr__(self):
         return str(self)
@@ -82,7 +82,6 @@ class Tag(Base):
 
 def create_user(session: SessionType, username: str) -> User:
     user = User(username=username)
-    print("create user", user)
     session.add(user)
     session.commit()
     return user
@@ -100,6 +99,16 @@ def create_tag(session: SessionType, tag_text: str, post_id: int) -> Tag:
     session.add(tag)
     session.commit()
     return tag
+
+
+def create_tags(session: SessionType, tags_text: list[str], post_id: int) -> list[Tag]:
+    tags_list = []
+    for tag_text in tags_text:
+        tag = Tag(tag_text=tag_text, post_id=post_id)
+        tags_list.append(tag)
+    session.add_all(tags_list)
+    session.commit()
+    return tags_list
 
 
 def query_user(session: SessionType, username: str) -> User:
@@ -123,8 +132,7 @@ def query_user_posts_with_tags(session: SessionType, username: str, tags: list[s
     tags_list = []
     for tag_text in tags:
         tags = query_tag_by_text(session, tag_text)
-        for tag in tags:
-            tags_list.append(tag)
+        tags_list += tags
     for post in posts:
         for tag in tags_list:
             if tag in post.post_tags:
@@ -134,20 +142,19 @@ def query_user_posts_with_tags(session: SessionType, username: str, tags: list[s
 
 
 def main():
-    # Base.metadata.create_all()
+    Base.metadata.drop_all()
+    Base.metadata.create_all()
     session: SessionType = Session()
-    # create_user(session, "Vasiliy")
-    # post_one = create_post(session, "In rock we trust, it,s rock or bust", "Vasiliy")
+    create_user(session, "Vasiliy")
+    post_one = create_post(session, "In rock we trust, it,s rock or bust", "Vasiliy")
+    create_tags(session, ["#music", "#rock"], post_one.id)
     # create_tag(session, "#music", post_one.id)
     # create_tag(session, "#rock", post_one.id)
-    # post_two = create_post(session, "I play guitar and drums everywhere I want", "Vasiliy")
-    # create_tag(session, "#music", post_two.id)
-    # create_tag(session, "#drums", post_two.id)
-    # create_tag(session, "#guitar", post_two.id)
-    # create_user(session, "Tom")
-    # tom_post_one = create_post(session, "Today is my first performance as part of a new musical group", "Tom")
-    # create_tag(session, "#rock", tom_post_one.id)
-    # create_tag(session, "#group", tom_post_one.id)
+    post_two = create_post(session, "I play guitar and drums everywhere I want", "Vasiliy")
+    create_tags(session, ["#music", "#drums", "#guitar"], post_two.id)
+    create_user(session, "Tom")
+    tom_post_one = create_post(session, "Today is my first performance as part of a new musical group", "Tom")
+    create_tags(session, ["#rock", "#group"], tom_post_one.id)
     posts_with_tags = query_user_posts_with_tags(session, "Vasiliy", ["#music", "#rock"])
     for post in posts_with_tags:
         print(post)
