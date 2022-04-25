@@ -167,7 +167,7 @@ def main():
     post_two = create_post(session, "I play guitar and drums everywhere I want", "Vasiliy")
     create_tags(session, ["#music", "#drums", "#guitar"], post_two.id)
     create_user(session, "Tom")
-    tom_post_one = create_post(session, "Today is my first performance as part of a new musical group", "Tom")
+    tom_post_one = create_post(session, "Today is my first performance as part of a new band", "Tom")
     tom_post_two = create_post(session, "Music is what everyone has", "Tom")
     create_tags(session, ["#rock", "#group"], tom_post_one.id)
     create_tags(session, ["#music", "#foreveryone"], tom_post_two.id)
